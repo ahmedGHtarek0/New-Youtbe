@@ -11,8 +11,8 @@ const newschemaforcust= new Schema<Icustomer>({
     name:{type:String,required:true},
     email:{type:String,required:true},
     password:{type:String,required:true},
-    ppic:{type:String},
-    profilepic:{type:String},
+    ppic:{type:String,default:'no pic'},
+    profilepic:{type:String,default:'nopic'},
 })
 const CustDb= mongoose.model<Icustomer>('Customer',newschemaforcust)
 export default CustDb;
