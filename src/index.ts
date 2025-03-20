@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import CustomerRoutes from './routes/CustomerRoutes'
 
 const app = express()
-const port = 3000
+const port = 4000
 app.use(express.json())
 mongoose.connect("mongodb://localhost:27017/youtubeNew").then(() => console.log('ahmed test')).catch((i)=>console.log('errr' ,i))
 app.use('/customer',CustomerRoutes)

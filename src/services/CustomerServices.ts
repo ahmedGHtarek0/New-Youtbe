@@ -26,5 +26,5 @@ if(!SearchAboutCustomer){
 if(SearchAboutCustomer.password!==password){
 return{data:'the password is wrong',status:401}
 }
-return({data:tokenForCustomer(email),status:201})
+return({data:tokenForCustomer({email}),status:201})
 }
