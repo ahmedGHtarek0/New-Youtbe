@@ -27,14 +27,39 @@ return({data:updCust,status:201})
     }
 }
 interface Ipost{
-    pic:[]
+    pic:[],
+    id:string
 }
-export const AddPost=async({pic}:Ipost)=>{
+export const AddPost=async({pic,id}:Ipost)=>{
     try{
-const addpost= await Post.create({postpics:pic})
+const addpost= await Post.create({postpics:pic,idofowner:id})
 await addpost.save()
 return({data:addpost,status:201})
     }catch(err){
         return({data:'err here'+err,status:401})
     }
+}
+
+interface like{
+    idofpost:string
+}
+export const Addlike=async({idofpost}:like)=>{
+    const seacrhaboutcomment= await Post.findById({_id:idofpost})
+    if(!seacrhaboutcomment){
+        return({data:'eror here in like in post',status:401})
+    }
+    seacrhaboutcomment.likes+=1
+    await seacrhaboutcomment.save()
+    return({data:seacrhaboutcomment,status:201})
+
+}
+export const deletelike=async({idofpost}:like)=>{
+    const seacrhaboutcomment= await Post.findById({_id:idofpost})
+    if(!seacrhaboutcomment){
+        return({data:'eror here in like in post',status:401})
+    }
+    seacrhaboutcomment.likes-=1
+    await seacrhaboutcomment.save()
+    return({data:seacrhaboutcomment,status:201})
+
 }

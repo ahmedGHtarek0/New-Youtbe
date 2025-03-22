@@ -2,7 +2,7 @@ import express, { Router } from 'express'
 import { AddNewCustomer, loginCust } from '../services/CustomerServices'
 import CustomerMiddleware, { Extendsreq } from '../middlewares/Cusrmiddleware'
 import { cloudeimage } from '../middlewares/profileandpersonalPic'
-import { addallthinge, AddPost } from '../services/customerallCrud'
+import { addallthinge, Addlike, AddPost, deletelike } from '../services/customerallCrud'
 
 const router = express()
 
@@ -27,9 +27,22 @@ router.post('/updprofile',CustomerMiddleware,cloudeimage.fields([{name:'profilep
     console.log(name)
     res.status(status).send(data)
 })
-router.post('/addpost',CustomerMiddleware,cloudeimage.array('images',10),async(req:any,res)=>{
+router.post('/addpost',CustomerMiddleware,cloudeimage.array('images',1),async(req:any,res)=>{
     const pic= req.files.map((File:any)=>File.path)
-    const {data,status}= await AddPost({pic})
+    const id=req.Cust._id
+    const {data,status}= await AddPost({pic,id})
     res.status(status).send(data)
+})
+router.post('/addlike/:idofpost',CustomerMiddleware,async(req:any,res)=>{
+    const {idofpost}=req.params
+    const {data,status}= await Addlike({idofpost})
+    res.status(status).send(data)
+
+})
+router.post('/deletelike/:idofpost',CustomerMiddleware,async(req:any,res)=>{
+    const {idofpost}=req.params
+    const {data,status}= await deletelike({idofpost})
+    res.status(status).send(data)
+
 })
 export default  router
