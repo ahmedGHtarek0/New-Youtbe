@@ -1,8 +1,8 @@
-import express from 'express'
+import express, { Router } from 'express'
 import { AddNewCustomer, loginCust } from '../services/CustomerServices'
 import CustomerMiddleware, { Extendsreq } from '../middlewares/Cusrmiddleware'
 import { cloudeimage } from '../middlewares/profileandpersonalPic'
-import { addallthinge } from '../services/customerallCrud'
+import { addallthinge, AddPost } from '../services/customerallCrud'
 
 const router = express()
 
@@ -27,5 +27,9 @@ router.post('/updprofile',CustomerMiddleware,cloudeimage.fields([{name:'profilep
     console.log(name)
     res.status(status).send(data)
 })
-
+router.post('/addpost',CustomerMiddleware,cloudeimage.array('images',10),async(req:any,res)=>{
+    const pic= req.files.map((File:any)=>File.path)
+    const {data,status}= await AddPost({pic})
+    res.status(status).send(data)
+})
 export default  router
